@@ -74,7 +74,7 @@ public class ComplexNumberTest {
 
         ComplexNumber a = new ComplexNumber(4, -8);
         ComplexNumber b = new ComplexNumber(3, 4);
-        
+        //MINIÄNDERUNG
     }
 
     /**
