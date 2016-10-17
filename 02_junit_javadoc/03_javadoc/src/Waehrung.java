@@ -1,16 +1,29 @@
-// TODO: JavaDoc
+/**
+ * Klasse zur Umrechnung von Währungen.
+ * @author Özkan
+ *
+ */
 public class Waehrung {
 
-    // TODO: JavaDoc
+    /**
+     * Wechselkurs zum Dollar.
+     */
     private final int kurs;
 
-    // TODO: JavaDoc
+    /**
+     * name Name der Währung (z.B. EURO)
+     */
     private final String name;
 
-    // TODO: JavaDoc
+    /**
+     * kuerzel Kürzel der Währung (z.B. €)
+     */
     private final String kuerzel;
 
-    // TODO: JavaDoc
+    /**
+     * Konstante um das Komma zu verschieben um
+     * Ganzzahlberechnungen durchführen zu können.
+     */
     private static final long TEILER = 10000;
 
     /**
@@ -26,22 +39,35 @@ public class Waehrung {
         this.kuerzel = kuerzel;
     }
 
-    // TODO: JavaDoc
+    /**
+     *
+     * @param betrag als ganze Zahl
+     * @param toWaehrung Währungsname
+     * @return gibt den umgerechneten Betrag als Zielwährung zurück
+     */
     public long umrechnen(long betrag, Waehrung toWaehrung) {
         return betrag * kurs / toWaehrung.kurs;
     }
 
-    // TODO: JavaDoc
+    /**
+     * getKurs.
+     * @return gibt den aktuellen Kurs zurück.
+     */
     public int getKurs() {
         return kurs;
     }
-    
-    // TODO: JavaDoc
+
+    /**
+     * getName.
+     * @return gibt den namen der Währung zurück (z.B. EURO).
+     */
     public String getName() {
         return name;
     }
 
-    // TODO: JavaDoc
+    /**
+     * @return gibt das Kürzel der Währung zurück (z.B. $)
+     */
     public String getKuerzel() {
         return kuerzel;
     }
