@@ -8,19 +8,20 @@ import java.awt.Point;
 
 import de.smits_net.games.framework.board.Board;
 import de.smits_net.games.framework.image.ImageBase;
+import de.smits_net.games.framework.sprite.Direction;
 import de.smits_net.games.framework.sprite.Sprite;
+import de.smits_net.games.framework.sprite.Velocity;
 
 /**
  * Spielfeld.
  */
-public class GameBoard {
-// TODO: Von Board ableiten
+public class GameBoard extends Board{
 
     /** Alien, das durch das Bild läuft. */
-    private AlienSprite alien;
+    private AlienSprite alien, alien2, alien3;
 
     /** Asteroid. */
-    private Sprite asteroid;
+    private Sprite asteroid, asteroid2;
 
     /** Hintergrundbild. */
     private Image background;
@@ -29,15 +30,22 @@ public class GameBoard {
      * Erzeugt ein neues Board.
      */
     public GameBoard() {
-// TODO: Einkommentieren
-//        // neues Spielfeld anlegen
-//        super(10, new Dimension(800, 600), Color.BLACK);
-//
-//        // Hintergrundbild laden
-//        background = ImageBase.loadImage("assets/background");
-//
+        // neues Spielfeld anlegen
+        super(10, new Dimension(800, 600), Color.BLACK);
+
+        // Hintergrundbild laden
+        background = ImageBase.loadImage("assets/background");
+
 
         // TODO: Alien und Asteroid anlegen und positionieren
+        alien = new AlienSprite(this, new Point(400,300));
+        alien2 = new AlienSprite(this, new Point (400,200));
+        alien3 = new AlienSprite(this, new Point(640, 400));
+
+        asteroid = new Asteroid(this, new Point(100, 300));
+        asteroid2 = new Asteroid(this, new Point(10, 200));
+
+
     }
 
     /**
@@ -53,7 +61,15 @@ public class GameBoard {
      * @param g Der Grafik-Kontext
      */
     public void drawGame(Graphics g) {
-        // TODO: Alle Objekte zeichnen
+
+        // Objekte zeichnen
+        alien.draw(g);
+        alien2.draw(g);
+        alien3.draw(g);
+        asteroid.draw(g);
+        asteroid2.draw(g);
+
+
     }
 
     /**
@@ -64,13 +80,21 @@ public class GameBoard {
      */
     public boolean updateGame() {
 
-        // TODO: Die Objekte bewegen
+        // Objekte bewegen
+
+
+        alien.move();
+        alien2.move();
+        asteroid.move();
+        asteroid2.move();
 
         // Kollision erkennen
-// TODO: Einkommentieren
-//        if (alien.intersects(asteroid) && alien.isActive()) {
-//            alien.explode();
-//        }
+
+        if (alien.intersects(asteroid) && alien.isActive()) {
+            alien.explode();
+        }
+        if ((alien2.intersects(asteroid)||alien2.intersects(asteroid2)) && alien2.isActive())
+            alien2.explode();
 
         return true;
     }

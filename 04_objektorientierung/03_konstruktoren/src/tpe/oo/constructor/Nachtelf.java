@@ -11,7 +11,6 @@ public class Nachtelf extends Wesen {
     /** Fähigkeit zum Widerstand gegen Naturmagie */
     private int naturwiderstand;
 
-    // Konstruktoren fehlen. Bitte hier einfügen.
     public Nachtelf(String name){
         super(name);
         this.naturwiderstand = STANDARD_NATURWIDERSTAND;
