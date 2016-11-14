@@ -1,5 +1,5 @@
 package tpe.exceptions.handledeclare;
-
+//Exceptions werden behandelt
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
