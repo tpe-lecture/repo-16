@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.util.Random;
+import java.util.Stack;
 
 import de.smits_net.games.framework.board.Board;
 import de.smits_net.games.framework.image.SimpleImage;
@@ -20,6 +21,33 @@ public class GameBoard extends Board {
 
     /** Münzstapel. */
     // TODO: Münzen als Stack speichern
+    // SimpleStack<> coinStack = new SimpleStack<>(20);
+    // Stack coinStack = new Stack();
+    // Stack <Stack> coinStack;
+
+    ///////////////////////////////////////////
+    private Object[] coinStack;
+    private int pos;
+
+    public void SimpleStack(int size) {
+        coinStack = new Object[size];
+        pos = 0;
+    }
+
+    public void push(Object o) {
+        coinStack[pos++] = o;
+    }
+
+    public Object pop() {
+        return coinStack[--pos];
+    }
+
+    //////////////////////////////////////////
+    
+    Stack<Sprite> stack = new Stack<>();
+    
+    
+    /////////////////////////////////////////
 
     /** A moving coin. */
     private Sprite moving;
@@ -43,6 +71,8 @@ public class GameBoard extends Board {
         // Münzen anlegen
         for (int i = 0; i < 20; i++) {
             // TODO: Neue Münzen auf den Stapel legen
+            stack.push(this.createCoin());
+//            this.push(this.createCoin());
         }
     }
 
@@ -55,21 +85,36 @@ public class GameBoard extends Board {
         String asset;
 
         switch (rnd.nextInt(8)) {
-            case 0: asset = "assets/1c.png"; break;
-            case 1: asset = "assets/2c.png"; break;
-            case 3: asset = "assets/5c.png"; break;
-            case 4: asset = "assets/10c.png"; break;
-            case 5: asset = "assets/20c.png"; break;
-            case 6: asset = "assets/50c.png"; break;
-            case 7: asset = "assets/1e.png"; break;
-            default: asset = "assets/2e.png"; break;
+        case 0:
+            asset = "assets/1c.png";
+            break;
+        case 1:
+            asset = "assets/2c.png";
+            break;
+        case 3:
+            asset = "assets/5c.png";
+            break;
+        case 4:
+            asset = "assets/10c.png";
+            break;
+        case 5:
+            asset = "assets/20c.png";
+            break;
+        case 6:
+            asset = "assets/50c.png";
+            break;
+        case 7:
+            asset = "assets/1e.png";
+            break;
+        default:
+            asset = "assets/2e.png";
+            break;
         }
 
         int offset = rnd.nextInt(10);
 
         return new Sprite(this, new Point(100 + offset, 100 + offset),
-                BoundaryPolicy.NONE,
-                new SimpleImage(asset));
+                BoundaryPolicy.NONE, new SimpleImage(asset));
     }
 
     /**
@@ -78,7 +123,10 @@ public class GameBoard extends Board {
     @Override
     public synchronized void drawGame(Graphics g) {
         // TODO: Über alle Objekte im Stapel laufen und sie zeichnen
-
+        
+        for (Sprite sprite : stack) {
+            sprite.draw(g, this);
+        }
         if (moving != null) {
             moving.draw(g, this);
         }
@@ -94,7 +142,7 @@ public class GameBoard extends Board {
     @Override
     protected void drawGameOver(Graphics g) {
         centerText(g, String.format("%d Punkte in %.2f Sekunden", points,
-                    (System.currentTimeMillis() - startzeit) / 1000.0));
+                (System.currentTimeMillis() - startzeit) / 1000.0));
     }
 
     /**
@@ -110,14 +158,20 @@ public class GameBoard extends Board {
         }
 
         // TODO: Wenn Stapel leer ist, nichts tun
+        
+        if (stack.isEmpty())
+            return;
 
         // TODO: Oberstes Sprite vom Stapel ansehen und s zuweisen
         Sprite s = null;
+        s = stack.peek();
 
         if (s.intersects(new Point(e.getX(), e.getY()))) {
             points++;
 
             // TODO: Oberstes Sprite vom Stapel entfernen und s zuweisen
+            s = stack.pop();
+            
 
             moving = s;
             moving.setVelocity(new Velocity(0, 20));
@@ -129,12 +183,14 @@ public class GameBoard extends Board {
      */
     @Override
     public boolean updateGame() {
-        
+
         if (moving != null) {
             moving.move();
         }
-        
+
         // TODO: Solange Stapel noch Elemente enthält, true zurückgeben.
-        return true;
+        while (!stack.isEmpty())
+            return true;
+        return false;
     }
 }
