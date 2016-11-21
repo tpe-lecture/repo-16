@@ -20,21 +20,20 @@ public class Wuerfel {
     public static final int D10 = 10;
 
     /** 12-seitiger Würfel. */
-    public static final int D12 = 13;
+    public static final int D12 = 12;
 
     /** Zufallszahlengenerator. */
     private final Random rnd = new Random();
 
-    /** Anzahl der Seiten des Würfels. */
-    private final int numSides;
+    private final WuerfelTyp wt;
 
     /**
      * Einen neuen Würfel anlegen.
      *
-     * @param numSides Anzahl der Seiten des Würfels.
+     * @param wt Anzahl der Seiten des Würfels.
      */
-    public Wuerfel(int numSides) {
-        this.numSides = numSides;
+    public Wuerfel(WuerfelTyp wt) {
+        this.wt = wt;
     }
 
     /**
@@ -43,6 +42,6 @@ public class Wuerfel {
      * @return Ergebnis des Wurfes.
      */
     public int roll() {
-        return rnd.nextInt(numSides) + 1;
+        return rnd.nextInt(wt.getSeitenzahl()) + 1;
     }
 }
