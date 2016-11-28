@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.Random;
 
 import de.smits_net.games.framework.board.Board;
@@ -12,6 +14,8 @@ import de.smits_net.games.framework.board.Board;
  * Spielfeld.
  */
 public class GameBoard extends Board {
+
+
 
     /** Alien, das durch das Bild läuft. */
     private Alien alien;
@@ -25,6 +29,20 @@ public class GameBoard extends Board {
 
         // Alien initialisieren
         alien = new Alien(this, new Point(800, 50 + new Random().nextInt(100)));
+
+        @SuppressWarnings("unused")
+        class AlienExploder extends MouseAdapter {
+            @Override
+            public void mousePressed(MouseEvent e) {
+//                super.mousePressed(e);
+                Point p = new Point(e.getX(), e.getY());
+                if (alien.intersects(e.getPoint())) {
+                    alien.explode();
+                }
+//                if (alien.intersects)
+            }
+        }
+        addMouseListener(new AlienExploder());
     }
 
     /**
